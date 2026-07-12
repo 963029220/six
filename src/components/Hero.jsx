@@ -16,14 +16,15 @@ export default function Hero() {
       dividerRef.current?.classList.add('visible'); laserRef.current?.classList.add('visible'); ruleRef.current?.classList.add('visible'); ctaRef.current?.classList.add('visible');
       return;
     }
-    setTimeout(() => { proximityRef.current?.classList.add('revealed'); }, 320);
+    const t1 = setTimeout(() => { proximityRef.current?.classList.add('revealed'); }, 320);
     const titleDone = 820;
-    setTimeout(() => {
+    const t2 = setTimeout(() => {
       const subs = subRef.current.querySelectorAll('.sub-char');
       subs.forEach((c, i) => setTimeout(() => c.classList.add('revealed'), i * 35));
       setTimeout(() => dividerRef.current?.classList.add('visible'), 520);
       setTimeout(() => { laserRef.current?.classList.add('visible'); setTimeout(() => ruleRef.current?.classList.add('visible'), 200); setTimeout(() => ctaRef.current?.classList.add('visible'), 500); }, titleDone);
     }, titleDone);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
   }, [reduced]);
 
   return (

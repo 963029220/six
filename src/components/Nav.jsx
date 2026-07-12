@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import { useReducedMotion } from './UI.jsx';
 import { site } from '../data/content.js';
 
@@ -11,7 +12,7 @@ export default function Nav({ active }) {
       <a href="#hero" className="nav__brand" onClick={e => scroll(e, 'hero')}>影月寒风<span>·</span> 堵桥小分队</a>
       <nav className="nav__links" aria-label="主导航">
         {items.map((id, i) => (
-          <><a key={id} href={`#${id}`} className={`nav__item${active === id ? ' is-active' : ''}`} onClick={e => scroll(e, id)}>{labels[i]}</a>{i < items.length - 1 && <span className="nav__sep" aria-hidden="true">·</span>}</>
+          <Fragment key={id}><a href={`#${id}`} className={`nav__item${active === id ? ' is-active' : ''}`} onClick={e => scroll(e, id)}>{labels[i]}</a>{i < items.length - 1 && <span className="nav__sep" aria-hidden="true">·</span>}</Fragment>
         ))}
       </nav>
     </header>

@@ -4,7 +4,9 @@ import * as THREE from 'three';
 export default function BgCanvas() {
   const canvasRef = useRef(null);
   useEffect(() => {
-    const RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let RM = mq.matches;
+    const mqListener = (e) => { RM = e.matches; };
     const canvas = canvasRef.current;
 
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
@@ -85,6 +87,7 @@ export default function BgCanvas() {
       mx = (e.clientX / window.innerWidth - 0.5) * 2;
       my = -(e.clientY / window.innerHeight - 0.5) * 2;
     };
+    mq.addEventListener('change', mqListener);
     window.addEventListener('mousemove', onMouse);
 
     let running = true;
@@ -110,6 +113,7 @@ export default function BgCanvas() {
       running = false;
       window.removeEventListener('mousemove', onMouse);
       window.removeEventListener('resize', onResize);
+      mq.removeEventListener('change', mqListener);
       renderer.dispose();
       geo.dispose();
       mat.dispose();

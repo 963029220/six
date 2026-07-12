@@ -63,11 +63,18 @@ export function CompareSlider({ id, ratio, beforeSrc, afterSrc }) {
     handle.addEventListener('mousedown', onStart); handle.addEventListener('touchstart', onStart, { passive: false });
     window.addEventListener('mousemove', onMove); window.addEventListener('touchmove', onMove, { passive: false });
     window.addEventListener('mouseup', onEnd); window.addEventListener('touchend', onEnd);
-    slider.addEventListener('mousedown', (e) => { if (e.target === handle || handle.contains(e.target)) return; dragging = true; setPos(e.clientX); });
+    const onSliderMouseDown = (e) => { if (e.target === handle || handle.contains(e.target)) return; dragging = true; setPos(e.clientX); };
+    slider.addEventListener('mousedown', onSliderMouseDown);
     const onKey = (e) => { const step = e.shiftKey ? 10 : 2; const val = parseFloat(handle.getAttribute('aria-valuenow')) || 50; let nv = null; if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') nv = Math.max(0, val - step); if (e.key === 'ArrowRight' || e.key === 'ArrowUp') nv = Math.min(100, val + step); if (nv !== null) { const r = slider.getBoundingClientRect(); setPos(r.left + r.width * nv / 100); } };
     handle.addEventListener('keydown', onKey);
     const r = slider.getBoundingClientRect(); setPos(r.left + r.width / 2);
-    return () => { handle.removeEventListener('mousedown', onStart); window.removeEventListener('mousemove', onMove); window.removeEventListener('mouseup', onEnd); window.removeEventListener('touchmove', onMove); window.removeEventListener('touchend', onEnd); handle.removeEventListener('keydown', onKey); };
+    return () => {
+      handle.removeEventListener('mousedown', onStart); handle.removeEventListener('touchstart', onStart);
+      window.removeEventListener('mousemove', onMove); window.removeEventListener('touchmove', onMove);
+      window.removeEventListener('mouseup', onEnd); window.removeEventListener('touchend', onEnd);
+      slider.removeEventListener('mousedown', onSliderMouseDown);
+      handle.removeEventListener('keydown', onKey);
+    };
   }, []);
   const cls = ratio === '9x16' ? 'compare-slider compare-slider--9x16' : 'compare-slider compare-slider--16x9';
   return (

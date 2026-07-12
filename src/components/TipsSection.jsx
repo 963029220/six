@@ -19,7 +19,7 @@ export default function TipsSection() {
     const ctx = gsap.context(() => {
       ref.current.querySelectorAll('.reveal').forEach(el => { gsap.fromTo(el, { opacity: 0, y: 36 }, { opacity: 1, y: 0, duration: 0.85, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 88%', once: true } }); });
     }, ref);
-    return () => { ctx.revert(); ScrollTrigger.getAll().forEach(t => t.kill()); };
+    return () => { ctx.revert(); };
   }, [reduced]);
 
   return (

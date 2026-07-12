@@ -11,7 +11,7 @@ export default function CameraSection() {
       ref.current.querySelectorAll('.reveal').forEach(el => { gsap.fromTo(el, { opacity: 0, y: 36 }, { opacity: 1, y: 0, duration: 0.85, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 88%', once: true } }); });
       ref.current.querySelectorAll('.stat-block__value').forEach(el => { gsap.fromTo(el, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.6, ease: 'power2.out', scrollTrigger: { trigger: el, start: 'top 92%', once: true } }); });
     }, ref);
-    return () => { ctx.revert(); ScrollTrigger.getAll().forEach(t => t.kill()); };
+    return () => { ctx.revert(); };
   }, [reduced]);
 
   return (
